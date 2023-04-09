@@ -10,7 +10,7 @@ from pyspark.ml.linalg import Vectors
 from pyspark.sql.functions import array
 from pyspark.sql.functions import concat
 
-spark = SparkSession.builder.appName("CSV Normalization").getOrCreate()
+spark = SparkSession.builder.appName("GolyPCA").getOrCreate()
 df = spark.read.options(inferSchema='True',delimiter=',',header='True').csv("A:/ML_hw_mydataset_numeric_positive.csv")
 
 selected_cols = ["cons_price_idx", "nr_employed", "emp_var_rate","euribor3m"]
