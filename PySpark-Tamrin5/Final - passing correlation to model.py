@@ -12,7 +12,7 @@ from pyspark.sql.functions import array
 from pyspark.sql.functions import concat
 from pyspark.ml.stat import Correlation
 
-spark = SparkSession.builder.appName("CSV Normalization").getOrCreate()
+spark = SparkSession.builder.appName("passing numeric + correlation to model").getOrCreate()
 df = spark.read.options(inferSchema='True',delimiter=',',header='True').csv("A:/ML_hw_mydataset_numeric_positive.csv")
 
 
