@@ -10,14 +10,11 @@ from pyspark.ml.linalg import Vectors
 from pyspark.sql.functions import array
 from pyspark.sql.functions import concat
 
-# Create a SparkSession
 spark = SparkSession.builder.appName("CSV Normalization").getOrCreate()
-
-# Read the CSV file
 df = spark.read.options(inferSchema='True',delimiter=',',header='True').csv("A:/ML_hw_mydataset_numeric_positive.csv")
 
 selected_cols = ["cons_price_idx", "nr_employed", "emp_var_rate","euribor3m"]
-# Convert the selected columns to a single vector column
+# in 4 sotun ro tabdil be vector mikonim (akhare tamrine 5 PCA roo hameye column ha anjam shode va k=9 hast.).
 vector_col = "cacheForPCA"
 assembler = VectorAssembler(inputCols=selected_cols, outputCol=vector_col)
 df_vec = assembler.transform(df)
@@ -27,10 +24,10 @@ pca = PCA(k=4, inputCol=vector_col, outputCol="pca_features")
 model = pca.fit(df_vec)
 transformed = model.transform(df_vec)
 
-# Drop the old 4 columns from the transformed dataframe
+# 4 sotoone ghabli ro drop mikonim.
 transformed = transformed.drop(*selected_cols)
 transformed = transformed.drop("cacheForPCA")
-# Show the transformed dataframe
+# Showtime
 transformed.show()
 
 train, test = transformed.randomSplit([0.7, 0.3], seed=42)
