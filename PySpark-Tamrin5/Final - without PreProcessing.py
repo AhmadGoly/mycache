@@ -5,7 +5,7 @@ from pyspark.ml.evaluation import BinaryClassificationEvaluator
 from pyspark.ml import Pipeline
 from pyspark.sql import SparkSession
 
-spark = SparkSession.builder.appName("CSV Normalization").getOrCreate()
+spark = SparkSession.builder.appName("Final - Without Preprocess").getOrCreate()
 df = spark.read.options(inferSchema='True',delimiter=',',header='True').csv("A:/hw_dataset.csv")
 
 #first and last step: make all of it in 2 columns: Features and label.
