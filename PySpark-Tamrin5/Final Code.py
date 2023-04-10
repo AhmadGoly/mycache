@@ -12,7 +12,7 @@ from pyspark.sql.functions import array
 from pyspark.sql.functions import concat
 from pyspark.ml.stat import Correlation
 
-spark = SparkSession.builder.appName("Final Code").getOrCreate()
+spark = SparkSession.builder.appName("CSV Normalization").getOrCreate()
 df = spark.read.options(inferSchema='True',delimiter=',',header='True').csv("A:/ML_hw_mydataset_numeric_positive.csv")
 
 
@@ -57,7 +57,13 @@ train, test = Normalized_DF.randomSplit([0.7, 0.3], seed=42)
 lr = LogisticRegression(featuresCol='MinMax_SS', labelCol='y')
 model = lr.fit(train)
 
-predictions = model.transform(test)
-evaluator = BinaryClassificationEvaluator(labelCol='y')
-print('Test Area Under ROC:', evaluator.evaluate(predictions))
+myoutputs = model.evaluate(test)
 
+predictions = model.transform(test)
+
+print('Calculated Accuracy:',myoutputs.accuracy)
+print('Calculated Precision:',myoutputs.precisionByLabel[0])
+print('Calculated Recall:',myoutputs.recallByLabel[0])
+
+evaluator = BinaryClassificationEvaluator(labelCol='y')
+print('Test Area Under ROC (Accuracy based on BinaryClassification):', evaluator.evaluate(predictions))
