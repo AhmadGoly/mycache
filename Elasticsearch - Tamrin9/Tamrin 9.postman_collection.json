@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "0eeabb0e-6e1e-4e66-9717-9a429ac912b8",
+		"name": "Tamrin 9",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1.1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"must\": [\r\n                {\r\n                    \"exists\": {\r\n                        \"field\": \"parent\"\r\n                    }\r\n                },\r\n                {\r\n                    \"bool\": {\r\n                        \"must_not\": [\r\n                            {\r\n                                \"term\": {\r\n                                    \"parent\": \"\"\r\n                                }\r\n                            }\r\n                        ]\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    },\r\n    \"aggs\": {\r\n        \"avg_pages\": {\r\n            \"avg\": {\r\n                \"field\": \"pages\"\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9200/my_index3/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"my_index3",
+						"_search"
+					]
+				},
+				"description": "Soal 1.1"
+			},
+			"response": []
+		},
+		{
+			"name": "1.1 Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"must\": [\r\n                {\r\n                    \"exists\": {\r\n                        \"field\": \"children\"\r\n                    }\r\n                },\r\n                {\r\n                    \"bool\": {\r\n                        \"must_not\": [\r\n                            {\r\n                                \"term\": {\r\n                                    \"children\": \"\"\r\n                                }\r\n                            }\r\n                        ]\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    },\r\n    \"aggs\": {\r\n        \"avg_pages\": {\r\n            \"avg\": {\r\n                \"field\": \"pages\"\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9200/my_index3/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"my_index3",
+						"_search"
+					]
+				},
+				"description": "Soal 1.1"
+			},
+			"response": []
+		},
+		{
+			"name": "1.2.old",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"aggs\": {\r\n    \"year_count\": {\r\n      \"terms\": {\r\n        \"field\": \"date\",\r\n        \"size\": 1\r\n      }\r\n    }\r\n  }\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:9200/my_index3/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"my_index3",
+						"_search"
+					]
+				},
+				"description": "Soal 1.1"
+			},
+			"response": []
+		},
+		{
+			"name": "1.2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"size\": 0,\r\n  \"query\": {\r\n    \"exists\": {\r\n      \"field\": \"date\"\r\n    }\r\n  },\r\n  \"aggs\": {\r\n    \"transformed_date_count\": {\r\n      \"terms\": {\r\n        \"script\": {\r\n          \"source\": \"def matches = /\\\\d{4}$/.matcher(params._source.date); if (matches.find()) { return matches.group(); } else { return null; }\"\r\n        },\r\n        \"size\": 1,\r\n        \"order\": {\r\n          \"_count\": \"desc\"\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:9200/my_index3/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"my_index3",
+						"_search"
+					]
+				},
+				"description": "Soal 1.1"
+			},
+			"response": []
+		}
+	]
+}
